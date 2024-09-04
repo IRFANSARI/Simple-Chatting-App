@@ -178,13 +178,33 @@
       </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
+      const socket = io();
+      const rid = getRoomIDFromURL();
+
+      socket.emit('join-room', rid);
+
+      socket.on('message', (message) => {
+        console.log(message);
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('message', 'received');
+        newMessage.setAttribute('data-sender', 'Server');
+        newMessage.textContent = message;
+
+        document.getElementById('messages').appendChild(newMessage);
+
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      });
+
       function getRoomIDFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        return 'Room ID: ' + urlParams.get('rid');
+        return urlParams.get('rid');
       }
 
-      document.getElementById('room-id').textContent = getRoomIDFromURL();
+      document.getElementById('room-id').textContent =
+        'Room ID: ' + getRoomIDFromURL();
 
       document
         .getElementById('send-btn')
@@ -202,6 +222,7 @@
 
             textBox.value = '';
             textBox.focus();
+            socket.emit('room-message', rid, text);
 
             const messagesDiv = document.getElementById('messages');
             messagesDiv.scrollTop = messagesDiv.scrollHeight;

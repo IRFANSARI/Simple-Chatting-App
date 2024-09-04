@@ -1,7 +1,8 @@
+const path = require('path');
+
 function handleJoinRoom(req, res) {
   const roomID = req.query.rid;
-  console.log(roomID);
-  res.send(`A client has been connected to Room ID: ${roomID}`);
+  res.sendFile(path.resolve('./public/chat.html'));
 }
 
 function handleCreateRoom(req, res) {
@@ -10,6 +11,7 @@ function handleCreateRoom(req, res) {
 }
 
 function handleDeleteRoom(req, res) {
+  // TO DO - Complete this function and integrate
   res.end(`This room is deleted...`);
 }
 
