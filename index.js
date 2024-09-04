@@ -19,7 +19,9 @@ app.use('/rooms', roomRouter);
 // Socket I/O
 io.on('connection', (socket) => {
   socket.on('join-room', (roomID) => {
-    socket.join(roomID);
+    if (roomID !== undefined) {
+      socket.join(roomID);
+    }
   });
 
   socket.on('room-message', (roomID, message) => {
