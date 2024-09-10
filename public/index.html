@@ -27,7 +27,7 @@
       text-align: center;
     }
 
-    input[type='number'],
+    input[type='text'],
     input[type='submit'],
     input[type='button'] {
       display: block;
@@ -42,7 +42,7 @@
       cursor: pointer;
     }
 
-    input[type='number'] {
+    input[type='text'] {
       cursor: auto;
     }
 
@@ -67,7 +67,7 @@
     <div class="container">
       <form>
         <label for="roomID">Room ID</label>
-        <input type="number" name="roomID" id="room-id" />
+        <input type="text" name="roomID" id="room-id" />
         <div class="error-message" id="error-message"></div>
         <input type="button" value="Join Room" id="join-room-btn" />
         <input type="button" value="Create new Room" id="create-room-btn" />
