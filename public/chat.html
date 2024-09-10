@@ -177,7 +177,7 @@
         socket.on('message', function (message) {
           const newMessage = $('<div>', {
             class: 'message received',
-            'data-sender': 'Server',
+            'data-sender': 'Stranger',
             text: message,
           });
           $('#messages').append(newMessage);
