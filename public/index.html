@@ -5,93 +5,154 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | Chat App</title>
+    <style>
+      :root {
+        --primary-bg: #121212;
+        --secondary-bg: #1e1e1e;
+        --accent-color: #007bff;
+        --text-color: #ffffff;
+        --error-color: #ff4444;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: var(--primary-bg);
+        color: var(--text-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .container {
+        background-color: var(--secondary-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .logo {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        color: var(--accent-color);
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      label {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+      }
+
+      input[type='text'] {
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: var(--text-color);
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      input[type='text']:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+
+      .btn {
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--text-color);
+        background-color: var(--accent-color);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .error-message {
+        color: var(--error-color);
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1.5rem;
+        }
+      }
+    </style>
   </head>
-
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      background-color: #1e1e1e;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      text-align: center;
-    }
-
-    input[type='text'],
-    input[type='submit'],
-    input[type='button'] {
-      display: block;
-      margin: 10px auto;
-      padding: 10px;
-      width: 80%;
-      font-size: 16px;
-      color: #ffffff;
-      background-color: #333333;
-      border: 1px solid #444444;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    input[type='text'] {
-      cursor: auto;
-    }
-
-    input[type='submit'],
-    input[type='button'] {
-      background-color: #007bff;
-      border: none;
-    }
-
-    input[type='submit']:hover,
-    input[type='button']:hover {
-      background-color: #0056b3;
-    }
-
-    .error-message {
-      margin-top: 10px;
-      color: #ff4444;
-    }
-  </style>
-
   <body>
     <div class="container">
+      <div class="logo">Chat App</div>
       <form>
-        <label for="roomID">Room ID</label>
-        <input type="text" name="roomID" id="room-id" />
+        <label for="room-id">Room ID</label>
+        <input
+          type="text"
+          name="roomID"
+          id="room-id"
+          placeholder="Enter Room ID"
+        />
         <div class="error-message" id="error-message"></div>
-        <input type="button" value="Join Room" id="join-room-btn" />
-        <input type="button" value="Create new Room" id="create-room-btn" />
+        <button type="button" class="btn" id="join-room-btn">Join Room</button>
+        <button type="button" class="btn btn-secondary" id="create-room-btn">
+          Create New Room
+        </button>
       </form>
     </div>
-  </body>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#join-room-btn').click(function () {
-        const roomID = $('#room-id').val();
-        if (roomID) {
-          window.location.href = `/rooms?rid=${roomID}`;
-        } else {
-          $('#error-message').text('Please enter a Room ID.');
-        }
-      });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#join-room-btn').click(function () {
+          const roomID = $('#room-id').val().trim();
+          if (roomID) {
+            window.location.href = `/rooms?rid=${roomID}`;
+          } else {
+            $('#error-message').text('Please enter a Room ID.');
+          }
+        });
 
-      $('#create-room-btn').click(function () {
-        $.post('/rooms', function (roomID) {
-          window.location.href = `/rooms?rid=${roomID}`;
+        $('#create-room-btn').click(function () {
+          $.post('/rooms', function (roomID) {
+            window.location.href = `/rooms?rid=${roomID}`;
+          });
+        });
+
+        $('#room-id').on('input', function () {
+          $('#error-message').text('');
         });
       });
-    });
-  </script>
+    </script>
+  </body>
 </html>
